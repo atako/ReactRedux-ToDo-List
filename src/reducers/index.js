@@ -1,16 +1,21 @@
 import{ ADD_TODO, DELETE_TODO, EDIT_TODO, TOGGLE_TODO } from '../actions';
 
+function todoReducer(state = {}, action) {
+  switch (action.type) {
+    case ADD_TODO:
+      return {
+            id: action.id,
+            title: action.title,
+            completed: false
+      };
+  }
+}
+
 export default function reducer(state=[], action) {
   switch (action.type) {
 
     case ADD_TODO:
-      const todo = {
-            id: action.id,
-            title: action.title,
-            completed: false
-        };
-
-        return [...state, todo];
+        return [...state, todoReducer(undefined, action)];
 
     case DELETE_TODO:
       const index = state.findIndex(todo => todo.id === action.id);
@@ -20,7 +25,15 @@ export default function reducer(state=[], action) {
         ];
 
     case EDIT_TODO:
-      return[];
+      return state.map(todo => {
+            if (todo.id !== acton.id) {
+                return todo;
+            }
+
+            return Object.assign({}, todo, {
+                title: action.title
+            });
+        });
 
     case TOGGLE_TODO:
       return state.map(todo => {
@@ -28,13 +41,10 @@ export default function reducer(state=[], action) {
             return todo;
           }
 
-            return Object.assign({}, todo, {
-                completed: !todo.completed
-            });
+          return Object.assign({}, todo, {
+              completed: !todo.completed
+          });
         });
-
-        this.setState({ todos });
-      return[];
     
     default: 
       return state;
