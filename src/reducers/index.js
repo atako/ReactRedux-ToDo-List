@@ -8,6 +8,25 @@ function todoReducer(state = {}, action) {
             title: action.title,
             completed: false
       };
+
+    case EDIT_TODO:
+      if (state.id !== acton.id) {
+        return state;
+      }
+
+      return Object.assign({}, state, {
+        title: action.title
+      });
+
+    case TOGGLE_TODO:
+      if(state.id !== action.id) {
+        return state;
+      }
+
+      return Object.assign({}, state, {
+        completed: !state.completed
+      });
+
   }
 }
 
@@ -25,26 +44,10 @@ export default function reducer(state=[], action) {
         ];
 
     case EDIT_TODO:
-      return state.map(todo => {
-            if (todo.id !== acton.id) {
-                return todo;
-            }
-
-            return Object.assign({}, todo, {
-                title: action.title
-            });
-        });
+      return state.map(todo => todoReducer(todo, action));
 
     case TOGGLE_TODO:
-      return state.map(todo => {
-        if (todo.id !== action.id) {
-            return todo;
-          }
-
-          return Object.assign({}, todo, {
-              completed: !todo.completed
-          });
-        });
+      return state.map(todo => todoReducer(todo, action));
     
     default: 
       return state;
