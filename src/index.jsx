@@ -9,4 +9,25 @@ import App from './App';
 
 const store = createStore(reducer, todos);
 
-ReactDOM.render(<App store={store} />, document.getElementById('root'));
+class Provider extends React.Component {
+  getChildContext() {
+    return {
+      store: this.props.store
+    };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+
+Provider.childContextTypes = {
+  store: React.PropTypes.object
+}
+
+ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  document.getElementById('root')
+); 
