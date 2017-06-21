@@ -1,33 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 
-class HeaderContainer extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.store = this.context.store;
+function mapStateToProps(state) {
+  return {
+    todos: state
   }
+}
 
-  componentDidMount() {
-    this.unsubscribe = this.store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }   
-
-  render() {
-    const todos = this.store.getState();
-
-    return (
-      <Header todos={todos} />
-    )
-  }
-} 
-
-HeaderContainer.contextTypes = {
-  store: React.PropTypes.object
-};
+const HeaderContainer = connect(mapStateToProps)(Header);
 
 export default HeaderContainer;

@@ -1,38 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Form from '../components/form';
 import { addTodo } from '../actions';
 
-class FormContainer extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.store = this.context.store;
-    this.handleAdd = this.handleAdd.bind(this);
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  } 
-
-  handleAdd(title) {
-    console.log(title);
-    this.store.dispatch(addTodo(title));
-  }
-
-  render() {
-    return(
-      <Form onAdd={this.handleAdd} />
-    );
+function mapDispatchToProps(dispatch) {
+  return {
+    onAdd: title => dispatch(addTodo(title))
   }
 }
 
-FormContainer.contextTypes = {
-  store: React.PropTypes.object
-};
+const FormContainer = connect(null, mapDispatchToProps)(Form);
 
 export default FormContainer;
