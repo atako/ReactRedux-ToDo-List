@@ -1,36 +1,35 @@
 import React from 'react';
 
 import Button from './Button';
-import { addTodo } from '../actions';
 
 class Form extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+    super(props);
 
-        this.store = this.props.store;
-        this.state = {
-            title: ''
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+		this.state = { title: '' };
 
-    handleSubmit(event) {
-        event.preventDefault();
+    this.store = this.props.store;
+    this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+  }   
 
-        const title = this.state.title;
+	handleSubmit(event) {
+		event.preventDefault();
 
-        if (title) {
-            this.store.dispatch(addTodo(title));
-            this.setState({ title: '' });
-        }
-    }
+		const title = this.state.title;
 
-    handleChange(event) {
-        const title = event.target.value;
+		if (title) {
+			console.log(title);
+			this.props.onAdd(title);
+			this.setState({ title: '' });
+		}
+}
 
-        this.setState({ title });
-    }
+  handleChange(event) {
+    const title = event.target.value;
+
+    this.setState({ title });
+  }
 
     render() {
         return (
